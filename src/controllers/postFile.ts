@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as csv from "fast-csv";
+import { storeYards } from "../helpers/storeYards";
 
-export const uploadFile = (req, res, next) => {
+export const uploadFile = async (req, res, next) => {
   const filePath = path.resolve(__dirname, "../..", req.file.path);
   const csvFile = [];
 
@@ -16,8 +17,11 @@ export const uploadFile = (req, res, next) => {
     .on("data", (row) => {
       csvFile.push(row);
     })
-    .on("end", () => {
-      console.log(csvFile);
+    .on("end", async () => {
       fs.unlinkSync(req.file.path);
+      await storeYards(csvFile);
+      res.status(201).json({
+        message: 'Csv was Successfully stored in Database!'
+      });
     });
 };
