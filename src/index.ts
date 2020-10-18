@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
 import { createConnection } from "typeorm";
+import routes from './routes'
 
 createConnection()
   .then(async (connection) => {
@@ -9,9 +10,7 @@ createConnection()
     
     app.use(cors());
 
-    app.use('/upload', (req,res) =>{
-      res.send('Hello World')
-    });
+    app.use(routes);
 
     app.set("json spaces", 4);
 
