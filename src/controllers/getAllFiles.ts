@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { getConnection } from "typeorm";
-import { Yard } from "../entity/Yard";
+import { File } from "../entity/File";
 
 export const getAllFiles = async (req,res,next) => {
     const connection = getConnection()
-    const allYards = await connection.getRepository(Yard).find();
+    const allFiles = await connection.getRepository(File).find();
     
-    res.status(200).json(allYards);
+    res.status(200).json(allFiles);
 }
